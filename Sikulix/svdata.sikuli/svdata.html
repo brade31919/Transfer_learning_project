@@ -1,0 +1,304 @@
+
+<html>
+   <head>
+      <style type="text/css">
+         .sikuli-code {
+            font-size: 20px;
+            font-family: "Osaka-mono", Monospace;
+            line-height: 1.5em;
+            display:table-cell;
+            white-space: pre-wrap;       /* css-3 */
+            white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
+            white-space: -pre-wrap;      /* Opera 4-6 */
+            white-space: -o-pre-wrap;    /* Opera 7 */
+            word-wrap: break-word;       /* Internet Explorer 5.5+ */
+            width: 99%;   /* remove horizontal scroll-bar when viewing in IE7 */
+         }
+         .sikuli-code img {
+            vertical-align: middle;
+            margin: 2px;
+            border: 1px solid #ccc;
+            padding: 2px;
+            -moz-border-radius: 5px;
+            -webkit-border-radius: 5px;
+            -moz-box-shadow: 1px 1px 1px gray;
+            -webkit-box-shadow: 1px 1px 2px gray;
+         }
+         .kw {
+            color: blue;
+         }
+         .skw {
+            color: rgb(63, 127, 127);
+         }
+
+         .str {
+            color: rgb(128, 0, 0);
+         }
+
+         .dig {
+            color: rgb(128, 64, 0);
+         }
+
+         .cmt {
+            color: rgb(200, 0, 200);
+         }
+
+         h2 {
+            display: inline;
+            font-weight: normal;
+         }
+
+         .info {
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+            margin-bottom: 20px;
+            display: none;
+         }
+
+         a {
+            color: #9D2900;
+         }
+
+         body {
+            font-family: "Trebuchet MS", Arial, Sans-Serif;
+         }
+
+      </style>
+   </head>
+<body>
+<div class="info">
+<h2>svdata.sikuli</h2> <a href="svdata.zip">(Download this script)</a>
+</div>
+<pre class="sikuli-code">
+<span class="cmt">#latlon_file is the .txt file which records the longitude and latitude of the point</span>
+<span class="cmt">#pname_file is the .txt file which records the pano name of the newest pano</span>
+<span class="cmt">#old_pname_file is the .txt file which records the pano name of the old pano</span>
+<span class="kw">def</span> Dl(latlon_file,pname_file,old_pname_file):
+    f = open(latlon_file,<span class="str">'r'</span>)
+    i =<span class="dig">0</span>
+    <span class="cmt">#if crash change this start point to the crash point</span>
+    star_point = <span class="dig">349</span>
+    a = open(<span class="str">"/home/Horatio/svdata/record.txt"</span>,<span class="str">'w'</span>)
+    <span class="kw">for</span> line <span class="kw">in</span> f:
+        <span class="kw">print</span> line
+        <span class="kw">if</span>(i&gt;= star_point):
+            <span class="kw">try</span>:
+                latlon = line   <span class="cmt">#read in the (lon,lat) information</span>
+                Findlatlon(latlon,pname_file,old_pname_file,i)
+                a.write(<span class="str">"The %d-th pair of latlon has completed without error!\n"</span>%i)
+            <span class="kw">except</span>:
+                a.write(<span class="str">"Error occur at %d-th pair\n"</span>%i)
+        i = i+<span class="dig">1</span>
+    a.close()
+    f.close()
+<span class="kw">def</span> Findlatlon(latlon,pname_file,old_pname_file,i):
+    <span class="cmt">#25.0378019,121.5581245</span>
+    <span class="skw">click</span>(<img src="1453812687994.png" />)
+    <span class="cmt">#if the map is open, no need to open a new page</span>
+    <span class="kw">if</span> exists(<img src="1453816570455.png" />) <span class="kw">or</span> exists(<img src="1453816597960.png" />):
+        <span class="skw">click</span>(<img src="1453821129934.png" />)
+        <span class="cmt">#if the google map is in search page</span>
+        <span class="kw">if</span> exists(<img src="1453813492579.png" />):
+            <span class="skw">click</span>(<img src="1453812910298.png" />)
+            <span class="skw">wait</span>(<span class="dig">2</span>)
+            <span class="skw">type</span>(latlon)
+            <span class="skw">type</span>(Key.ENTER)
+            <span class="skw">wait</span>(<span class="dig">6</span>)
+            <span class="skw">dragDrop</span>(<img src="1455534980223.png" />, Location(<span class="dig">1197</span>,<span class="dig">540</span>))
+            <span class="skw">wait</span>(<span class="dig">4</span>)
+            <span class="str">'''
+            click("1453816695712.png")
+            type('a',KeyModifier.CTRL)
+            type('c',KeyModifier.CTRL)
+            click("1453818326187.png")
+            wait(2)
+            type("gedit "+pname_file+str(i)+"-0" + ".txt")
+            type(Key.ENTER)
+            wait(2)
+            type('v',KeyModifier.CTRL)
+            click("1453818263426.png")
+            click("1453818326187.png")
+            wait(1)
+            type('c',KeyModifier.CTRL)
+            '''</span>
+            j=<span class="dig">0</span>
+            <span class="kw">while</span>(j&lt;<span class="dig">8</span>):
+                <span class="skw">click</span>(<img src="1453819815668.png" />)
+                <span class="kw">if</span> j==<span class="dig">0</span>:
+                    <span class="skw">click</span>(<img src="1453819848829.png" />)
+                    <span class="skw">wait</span>(<span class="dig">1</span>)
+                    Region(<span class="dig">137</span>,<span class="dig">341</span>,<span class="dig">267</span>,<span class="dig">67</span>).<span class="skw">click</span>(<img src="1455688655225.png" />)
+                <span class="kw">else</span>:
+                    Region(<span class="dig">137</span>,<span class="dig">341</span>,<span class="dig">267</span>,<span class="dig">67</span>).<span class="skw">click</span>(<img src="1455688655225.png" />)
+                    <span class="skw">type</span>(Key.RIGHT)
+                <span class="skw">wait</span>(<span class="dig">2</span>)
+                <span class="skw">click</span>(Location(<span class="dig">300</span>,<span class="dig">300</span>))
+                <span class="skw">wait</span>(<span class="dig">2</span>)
+                <span class="skw">click</span>(<img src="1453816695712.png" />)
+                <span class="skw">type</span>(<span class="str">'a'</span>,KeyModifier.CTRL)
+                <span class="skw">type</span>(<span class="str">'c'</span>,KeyModifier.CTRL)
+                <span class="skw">click</span>(<img src="1453818326187.png" />)
+                <span class="skw">wait</span>(<span class="dig">2</span>)
+                <span class="skw">type</span>(<span class="str">"gedit "</span>+old_pname_file+str(i)+<span class="str">"-"</span>+str(j)+<span class="str">".txt"</span>)
+                <span class="skw">type</span>(Key.ENTER)
+                <span class="skw">wait</span>(<span class="dig">3</span>)
+                <span class="skw">type</span>(<span class="str">'v'</span>,KeyModifier.CTRL)
+                <span class="skw">wait</span>(<span class="dig">1</span>)
+                <span class="skw">click</span>(<img src="1453818263426.png" />)
+                <span class="cmt">#click("1453818326187.png")</span>
+                <span class="skw">wait</span>(<span class="dig">2</span>)
+                <span class="skw">type</span>(<span class="str">'q'</span>,KeyModifier.CTRL)
+                <span class="kw">if</span> j&gt;<span class="dig">0</span>:
+                    f = open(old_pname_file + str(i) + <span class="str">"-"</span> + str(j)+<span class="str">".txt"</span>,<span class="str">'r'</span>)
+                    g = open(old_pname_file + str(i) + <span class="str">"-"</span> + str(j-<span class="dig">1</span>)+ <span class="str">".txt"</span>,<span class="str">'r'</span>)
+                    <span class="kw">for</span> line <span class="kw">in</span> f:
+                        a = line
+                    <span class="kw">for</span> line <span class="kw">in</span> g:
+                        b = line
+                    <span class="kw">print</span> <span class="str">"fku"</span>
+                    <span class="kw">print</span> a
+                    <span class="kw">print</span> b
+                    <span class="kw">if</span> a == b:
+                        <span class="kw">break</span>
+                j=j+<span class="dig">1</span>
+                <span class="skw">wait</span>(<span class="dig">2</span>)
+
+        <span class="cmt">#if the map is not in the search page, it would be in the panorama page    </span>
+        <span class="kw">else</span>:
+            <span class="skw">wait</span>(<span class="dig">2</span>)
+            <span class="skw">click</span>(Location(<span class="dig">1197</span>,<span class="dig">540</span>))
+
+            <span class="skw">type</span>(Key.ESC)
+            <span class="cmt">#click("1453819076044.png")</span>
+           <span class="cmt"># find("1453814711941.png")</span>
+            <span class="skw">wait</span>(<span class="dig">1</span>)
+            <span class="skw">click</span>(<img src="1453814739493.png" />)
+            <span class="skw">click</span>(<img src="1453812910298.png" />)
+            <span class="skw">wait</span>(<span class="dig">2</span>)
+            <span class="skw">type</span>(latlon)
+            <span class="skw">type</span>(Key.ENTER)
+            <span class="skw">wait</span>(<span class="dig">6</span>)
+            hover(<img src="1455534980223.png" />)
+            mouseDown(Button.LEFT)
+            <span class="skw">wait</span>(<span class="dig">0.5</span>)
+            mouseMove(Location(<span class="dig">1197</span>,<span class="dig">525</span>))
+            <span class="skw">wait</span>(<span class="dig">1</span>)
+            mouseUp(Button.LEFT)
+            <span class="cmt">#dragDrop("1455534980223.png", Location(1197,525))</span>
+            <span class="skw">wait</span>(<span class="dig">4</span>)
+            <span class="str">'''
+            click("1453816695712.png")
+            type('a',KeyModifier.CTRL)
+            type('c',KeyModifier.CTRL)
+            click("1453818326187.png")
+            wait(2)
+            type("gedit "+pname_file+str(i)+".txt")
+            type(Key.ENTER)
+            wait(2)
+            type('v',KeyModifier.CTRL)
+            click("1453818263426.png")
+            #click("1453818326187.png")
+            wait(1)
+            type('q',KeyModifier.CTRL)
+            '''</span>
+            j=<span class="dig">0</span>
+            <span class="kw">while</span>(j&lt;<span class="dig">8</span>):
+                <span class="skw">click</span>(<img src="1453819815668.png" />)
+                <span class="kw">if</span> j==<span class="dig">0</span>:
+                    <span class="skw">click</span>(<img src="1453819848829.png" />)
+                    <span class="skw">wait</span>(<span class="dig">1</span>)
+                    Region(<span class="dig">137</span>,<span class="dig">341</span>,<span class="dig">267</span>,<span class="dig">67</span>).<span class="skw">click</span>(<img src="1455688655225.png" />)
+                <span class="kw">else</span>:
+                    Region(<span class="dig">137</span>,<span class="dig">341</span>,<span class="dig">267</span>,<span class="dig">67</span>).<span class="skw">click</span>(<img src="1455688655225.png" />)
+                    <span class="skw">type</span>(Key.RIGHT)
+                <span class="skw">wait</span>(<span class="dig">2</span>)
+                <span class="skw">click</span>(Location(<span class="dig">300</span>,<span class="dig">300</span>))
+                <span class="skw">wait</span>(<span class="dig">2</span>)
+                <span class="skw">click</span>(<img src="1453816695712.png" />)
+                <span class="skw">type</span>(<span class="str">'a'</span>,KeyModifier.CTRL)
+                <span class="skw">type</span>(<span class="str">'c'</span>,KeyModifier.CTRL)
+                <span class="skw">click</span>(<img src="1453818326187.png" />)
+                <span class="skw">wait</span>(<span class="dig">2</span>)
+                <span class="skw">type</span>(<span class="str">"gedit "</span>+old_pname_file+str(i)+<span class="str">"-"</span>+str(j)+<span class="str">".txt"</span>)
+                <span class="skw">type</span>(Key.ENTER)
+                <span class="skw">wait</span>(<span class="dig">3</span>)
+                <span class="skw">type</span>(<span class="str">'v'</span>,KeyModifier.CTRL)
+                <span class="skw">wait</span>(<span class="dig">1</span>)
+                <span class="skw">click</span>(<img src="1453818263426.png" />)
+                <span class="cmt">#click("1453818326187.png")</span>
+                <span class="skw">wait</span>(<span class="dig">2</span>)
+                <span class="skw">type</span>(<span class="str">'q'</span>,KeyModifier.CTRL)
+                <span class="kw">if</span> j&gt;<span class="dig">0</span>:
+                    f = open(old_pname_file + str(i) + <span class="str">"-"</span> + str(j)+<span class="str">".txt"</span>,<span class="str">'r'</span>)
+                    g = open(old_pname_file + str(i) + <span class="str">"-"</span> + str(j-<span class="dig">1</span>)+ <span class="str">".txt"</span>,<span class="str">'r'</span>)
+                    <span class="kw">for</span> line <span class="kw">in</span> f:
+                        a = line
+                    <span class="kw">for</span> line <span class="kw">in</span> g:
+                        b = line
+                    <span class="kw">print</span> <span class="str">"fku"</span>
+                    <span class="kw">print</span> a
+                    <span class="kw">print</span> b
+                    <span class="kw">if</span> a == b:
+                        <span class="kw">break</span>
+                j=j+<span class="dig">1</span>
+                <span class="skw">wait</span>(<span class="dig">2</span>)
+    <span class="cmt">#if the google map is not open, then open a new one</span>
+    <span class="kw">else</span>:
+        <span class="skw">find</span>(<img src="1453812739531.png" />)
+
+        <span class="skw">click</span>(<img src="1453957693903.png" />)
+        <span class="skw">click</span>(<img src="1453814887934.png" />)
+        <span class="skw">type</span>(<span class="str">"google maps"</span>)
+        <span class="skw">type</span>(Key.ENTER)
+        <span class="skw">wait</span>(<span class="dig">2</span>)
+        <span class="skw">click</span>(<img src="1453815004181.png" />)
+        <span class="skw">wait</span>(<span class="dig">2</span>)
+        <span class="skw">click</span>(<img src="1453812910298.png" />)
+        <span class="skw">wait</span>(<span class="dig">2</span>)
+        <span class="skw">type</span>(latlon)
+        <span class="skw">type</span>(Key.ENTER)
+        <span class="skw">wait</span>(<span class="dig">6</span>)
+        hover(<img src="1455534980223.png" />)
+        mouseDown(Button.LEFT)
+        <span class="skw">wait</span>(<span class="dig">0.5</span>)
+        mouseMove(Location(<span class="dig">1197</span>,<span class="dig">525</span>))
+        <span class="skw">wait</span>(<span class="dig">1</span>)
+        mouseUp(Button.LEFT)
+        <span class="cmt">#dragDrop("1455534980223.png", Location(1197,525))</span>
+        <span class="skw">wait</span>(<span class="dig">3</span>)
+        <span class="skw">click</span>(<img src="1453816695712.png" />)
+        <span class="skw">type</span>(<span class="str">'a'</span>,KeyModifier.CTRL)
+        <span class="skw">type</span>(<span class="str">'c'</span>,KeyModifier.CTRL)
+        <span class="skw">click</span>(<img src="1453818326187.png" />)
+        <span class="skw">wait</span>(<span class="dig">2</span>)
+        <span class="skw">type</span>(<span class="str">"gedit "</span>+pname_file+str(i)+<span class="str">".txt"</span>)
+        <span class="skw">type</span>(Key.ENTER)
+        <span class="skw">wait</span>(<span class="dig">2</span>)
+        <span class="skw">type</span>(<span class="str">'v'</span>,KeyModifier.CTRL)
+        <span class="skw">click</span>(<img src="1453818263426.png" />)
+        <span class="skw">click</span>(<img src="1453818326187.png" />)
+        <span class="skw">wait</span>(<span class="dig">1</span>)
+        <span class="skw">type</span>(<span class="str">'c'</span>,KeyModifier.CTRL)
+        <span class="skw">click</span>(<img src="1453819815668.png" />)
+        <span class="skw">click</span>(<img src="1453819848829.png" />)
+        <span class="skw">wait</span>(<span class="dig">1</span>)
+        <span class="skw">click</span>(<img src="1453820168124.png" />)
+        <span class="skw">wait</span>(<span class="dig">2</span>)
+        <span class="skw">click</span>(<img src="1453816695712.png" />)
+        <span class="skw">type</span>(<span class="str">'a'</span>,KeyModifier.CTRL)
+        <span class="skw">type</span>(<span class="str">'c'</span>,KeyModifier.CTRL)
+        <span class="skw">click</span>(<img src="1453818326187.png" />)
+        <span class="skw">wait</span>(<span class="dig">2</span>)
+        <span class="skw">type</span>(<span class="str">"gedit "</span>+old_pname_file+str(i)+<span class="str">".txt"</span>)
+        <span class="skw">type</span>(Key.ENTER)
+        <span class="skw">wait</span>(<span class="dig">2</span>)
+        <span class="skw">type</span>(<span class="str">'v'</span>,KeyModifier.CTRL)
+        <span class="skw">click</span>(<img src="1453818263426.png" />)
+        <span class="skw">click</span>(<img src="1453818326187.png" />)
+        <span class="skw">wait</span>(<span class="dig">1</span>)
+        <span class="skw">type</span>(<span class="str">'c'</span>,KeyModifier.CTRL)
+
+Dl(<span class="str">"/home/Horatio/svdata/latlon.txt"</span>,<span class="str">"/home/Horatio/svdata/pname"</span>,<span class="str">"/home/Horatio/svdata/old_pname"</span>)
+</pre>
+</body>
+</html>
